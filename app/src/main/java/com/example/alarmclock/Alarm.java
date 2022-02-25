@@ -39,7 +39,7 @@ public class Alarm extends BroadcastReceiver {
 
             Intent nIntent = new Intent(context, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, nIntent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, nIntent, PendingIntent.FLAG_IMMUTABLE);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "1050")
                     .setSmallIcon(R.drawable.notification_icon)
