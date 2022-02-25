@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -23,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
     String[] timeStrings = {"Alarm1", "Alarm2"};
     int[] savedTimes = new int[numAlarms];
 
-    Alarm alarm = new Alarm(this.getBaseContext());
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setTimes();
         setAlarm();
         System.out.println("##################on create finoshed");
+
     }
 
     public void setEditTextListeners(){
@@ -70,7 +72,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setAlarm(){
-        alarm.setAlarm(this.getBaseContext());
+        Intent intent = new Intent(this.getApplicationContext(), Alarm.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this.getApplicationContext(), 234324243, intent, PendingIntent.FLAG_IMMUTABLE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ (1 * 1000), pendingIntent);
     }
 
 }
